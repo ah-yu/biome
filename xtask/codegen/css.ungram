@@ -433,6 +433,7 @@ AnyCssDeclarationOrRule =
 	AnyCssRule
 	| CssDeclarationWithSemicolon
 	| CssBogus
+	| CssGritMetavariable
 
 // @page :left { background: red; @media (500px <= width <= 500px) {  } }
 // 						 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1790,6 +1791,7 @@ CssUnicodeRangeWildcard = value: 'css_unicode_range_wildcard_literal'
 CssUrlValueRaw = value: 'css_url_value_raw_literal'
 
 // Grit metavariable https://github.com/getgrit/gritql/blob/main/resources/metavariable-grammars/css-metavariable-grammar.js
+// $foo
 CssGritMetavariable =
     dollar: '$'
     id: 'ident'

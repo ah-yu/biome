@@ -175,7 +175,8 @@ pub fn run(test_case: &str, _snapshot_name: &str, test_directory: &str, outcome_
 pub fn quick_test() {
     let code = r#"
 .foo {
-background: $fff
+background: $foo;
+$bar
 }
     "#;
 

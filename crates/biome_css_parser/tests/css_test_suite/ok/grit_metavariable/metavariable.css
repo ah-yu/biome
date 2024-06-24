@@ -1,0 +1,8 @@
+.foo {
+    color: $color
+}
+
+.bar {
+    color: red;
+    $bar
+}
