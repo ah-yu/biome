@@ -10,8 +10,11 @@ expression: snapshot
 }
 
 .bar {
-    color: red;
-    $bar;
+    $bar
+}
+
+.baz {
+    @media $baz {}
 }
 ```
 
@@ -80,45 +83,64 @@ CssRoot {
             block: CssDeclarationOrRuleBlock {
                 l_curly_token: L_CURLY@33..34 "{" [] [],
                 items: CssDeclarationOrRuleList [
-                    CssDeclarationWithSemicolon {
-                        declaration: CssDeclaration {
-                            property: CssGenericProperty {
-                                name: CssIdentifier {
-                                    value_token: IDENT@34..44 "color" [Newline("\n"), Whitespace("    ")] [],
-                                },
-                                colon_token: COLON@44..46 ":" [] [Whitespace(" ")],
-                                value: CssGenericComponentValueList [
-                                    CssIdentifier {
-                                        value_token: IDENT@46..49 "red" [] [],
-                                    },
-                                ],
-                            },
-                            important: missing (optional),
-                        },
-                        semicolon_token: SEMICOLON@49..50 ";" [] [],
-                    },
-                    CssGritMetavariableWithSemicolon {
-                        variable: CssGritMetavariable {
-                            dollar_token: DOLLAR@50..56 "$" [Newline("\n"), Whitespace("    ")] [],
-                            id_token: IDENT@56..59 "bar" [] [],
-                        },
-                        semicolon_token: SEMICOLON@59..60 ";" [] [],
+                    CssGritMetavariable {
+                        dollar_token: DOLLAR@34..40 "$" [Newline("\n"), Whitespace("    ")] [],
+                        id_token: IDENT@40..43 "bar" [] [],
                     },
                 ],
-                r_curly_token: R_CURLY@60..62 "}" [Newline("\n")] [],
+                r_curly_token: R_CURLY@43..45 "}" [Newline("\n")] [],
+            },
+        },
+        CssQualifiedRule {
+            prelude: CssSelectorList [
+                CssCompoundSelector {
+                    nesting_selector_token: missing (optional),
+                    simple_selector: missing (optional),
+                    sub_selectors: CssSubSelectorList [
+                        CssClassSelector {
+                            dot_token: DOT@45..48 "." [Newline("\n"), Newline("\n")] [],
+                            name: CssCustomIdentifier {
+                                value_token: IDENT@48..52 "baz" [] [Whitespace(" ")],
+                            },
+                        },
+                    ],
+                },
+            ],
+            block: CssDeclarationOrRuleBlock {
+                l_curly_token: L_CURLY@52..53 "{" [] [],
+                items: CssDeclarationOrRuleList [
+                    CssAtRule {
+                        at_token: AT@53..59 "@" [Newline("\n"), Whitespace("    ")] [],
+                        rule: CssMediaAtRule {
+                            media_token: MEDIA_KW@59..65 "media" [] [Whitespace(" ")],
+                            queries: CssMediaQueryList [
+                                CssGritMetavariable {
+                                    dollar_token: DOLLAR@65..66 "$" [] [],
+                                    id_token: IDENT@66..70 "baz" [] [Whitespace(" ")],
+                                },
+                            ],
+                            block: CssDeclarationOrRuleBlock {
+                                l_curly_token: L_CURLY@70..71 "{" [] [],
+                                items: CssDeclarationOrRuleList [],
+                                r_curly_token: R_CURLY@71..72 "}" [] [],
+                            },
+                        },
+                    },
+                ],
+                r_curly_token: R_CURLY@72..74 "}" [Newline("\n")] [],
             },
         },
     ],
-    eof_token: EOF@62..62 "" [] [],
+    eof_token: EOF@74..74 "" [] [],
 }
 ```
 
 ## CST
 
 ```
-0: CSS_ROOT@0..62
+0: CSS_ROOT@0..74
   0: (empty)
-  1: CSS_RULE_LIST@0..62
+  1: CSS_RULE_LIST@0..74
     0: CSS_QUALIFIED_RULE@0..26
       0: CSS_SELECTOR_LIST@0..5
         0: CSS_COMPOUND_SELECTOR@0..5
@@ -145,7 +167,7 @@ CssRoot {
               1: (empty)
             1: (empty)
         2: R_CURLY@24..26 "}" [Newline("\n")] []
-    1: CSS_QUALIFIED_RULE@26..62
+    1: CSS_QUALIFIED_RULE@26..45
       0: CSS_SELECTOR_LIST@26..33
         0: CSS_COMPOUND_SELECTOR@26..33
           0: (empty)
@@ -155,26 +177,39 @@ CssRoot {
               0: DOT@26..29 "." [Newline("\n"), Newline("\n")] []
               1: CSS_CUSTOM_IDENTIFIER@29..33
                 0: IDENT@29..33 "bar" [] [Whitespace(" ")]
-      1: CSS_DECLARATION_OR_RULE_BLOCK@33..62
+      1: CSS_DECLARATION_OR_RULE_BLOCK@33..45
         0: L_CURLY@33..34 "{" [] []
-        1: CSS_DECLARATION_OR_RULE_LIST@34..60
-          0: CSS_DECLARATION_WITH_SEMICOLON@34..50
-            0: CSS_DECLARATION@34..49
-              0: CSS_GENERIC_PROPERTY@34..49
-                0: CSS_IDENTIFIER@34..44
-                  0: IDENT@34..44 "color" [Newline("\n"), Whitespace("    ")] []
-                1: COLON@44..46 ":" [] [Whitespace(" ")]
-                2: CSS_GENERIC_COMPONENT_VALUE_LIST@46..49
-                  0: CSS_IDENTIFIER@46..49
-                    0: IDENT@46..49 "red" [] []
-              1: (empty)
-            1: SEMICOLON@49..50 ";" [] []
-          1: CSS_GRIT_METAVARIABLE_WITH_SEMICOLON@50..60
-            0: CSS_GRIT_METAVARIABLE@50..59
-              0: DOLLAR@50..56 "$" [Newline("\n"), Whitespace("    ")] []
-              1: IDENT@56..59 "bar" [] []
-            1: SEMICOLON@59..60 ";" [] []
-        2: R_CURLY@60..62 "}" [Newline("\n")] []
-  2: EOF@62..62 "" [] []
+        1: CSS_DECLARATION_OR_RULE_LIST@34..43
+          0: CSS_GRIT_METAVARIABLE@34..43
+            0: DOLLAR@34..40 "$" [Newline("\n"), Whitespace("    ")] []
+            1: IDENT@40..43 "bar" [] []
+        2: R_CURLY@43..45 "}" [Newline("\n")] []
+    2: CSS_QUALIFIED_RULE@45..74
+      0: CSS_SELECTOR_LIST@45..52
+        0: CSS_COMPOUND_SELECTOR@45..52
+          0: (empty)
+          1: (empty)
+          2: CSS_SUB_SELECTOR_LIST@45..52
+            0: CSS_CLASS_SELECTOR@45..52
+              0: DOT@45..48 "." [Newline("\n"), Newline("\n")] []
+              1: CSS_CUSTOM_IDENTIFIER@48..52
+                0: IDENT@48..52 "baz" [] [Whitespace(" ")]
+      1: CSS_DECLARATION_OR_RULE_BLOCK@52..74
+        0: L_CURLY@52..53 "{" [] []
+        1: CSS_DECLARATION_OR_RULE_LIST@53..72
+          0: CSS_AT_RULE@53..72
+            0: AT@53..59 "@" [Newline("\n"), Whitespace("    ")] []
+            1: CSS_MEDIA_AT_RULE@59..72
+              0: MEDIA_KW@59..65 "media" [] [Whitespace(" ")]
+              1: CSS_MEDIA_QUERY_LIST@65..70
+                0: CSS_GRIT_METAVARIABLE@65..70
+                  0: DOLLAR@65..66 "$" [] []
+                  1: IDENT@66..70 "baz" [] [Whitespace(" ")]
+              2: CSS_DECLARATION_OR_RULE_BLOCK@70..72
+                0: L_CURLY@70..71 "{" [] []
+                1: CSS_DECLARATION_OR_RULE_LIST@71..71
+                2: R_CURLY@71..72 "}" [] []
+        2: R_CURLY@72..74 "}" [Newline("\n")] []
+  2: EOF@74..74 "" [] []
 
 ```

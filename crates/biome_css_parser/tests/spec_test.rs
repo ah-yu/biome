@@ -177,6 +177,8 @@ pub fn quick_test() {
 .foo {
 background: $foo;
 $bar
+
+@media screen,$baz {}
 }
     "#;
 

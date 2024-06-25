@@ -263,12 +263,12 @@ pub(crate) fn is_at_any_value(p: &mut CssParser) -> bool {
 }
 
 pub(crate) fn is_at_grit_metavariable(p: &mut CssParser) -> bool {
-    p.at(T![$])
+    p.at(T![$]) && is_nth_at_identifier(p, 1)
 }
 
 #[inline]
 pub(crate) fn parse_grit_metavariable(p: &mut CssParser) -> ParsedSyntax {
-    if !is_at_grit_metavariable(p) || !is_nth_at_identifier(p, 1) {
+    if !is_at_grit_metavariable(p) {
         return Absent;
     }
     let m = p.start();

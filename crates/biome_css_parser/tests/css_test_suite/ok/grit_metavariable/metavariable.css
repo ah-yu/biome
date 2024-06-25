@@ -3,6 +3,9 @@
 }
 
 .bar {
-    color: red;
     $bar
+}
+
+.baz {
+    @media $baz {}
 }
