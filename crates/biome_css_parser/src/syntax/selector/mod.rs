@@ -26,6 +26,8 @@ use biome_parser::prelude::ParsedSyntax;
 use biome_parser::prelude::ParsedSyntax::{Absent, Present};
 use biome_parser::{token_set, CompletedMarker, Parser, ParserProgress, TokenSet};
 
+use super::{is_at_grit_metavariable, is_nth_at_grit_metavariable, parse_grit_metavariable};
+
 /// Determines the lexical context for parsing CSS selectors.
 ///
 /// This function is applied when lexing CSS selectors. It decides whether the
@@ -194,8 +196,12 @@ impl ParseRecovery for SelectorListParseRecovery {
 /// the beginning of a compound selector. In CSS, selectors are patterns used to select
 /// the elements to which a set of CSS rules apply.
 #[inline]
-pub(crate) fn is_nth_at_selector(p: &mut CssParser, n: usize) -> bool {
+fn is_nth_at_selector(p: &mut CssParser, n: usize) -> bool {
     is_nth_at_compound_selector(p, n)
+}
+
+pub(crate) fn is_nth_at_any_selector(p: &mut CssParser, n: usize) -> bool {
+    is_nth_at_selector(p, n) || is_nth_at_grit_metavariable(p, n)
 }
 
 /// Parses a CSS selector.
@@ -208,15 +214,17 @@ pub(crate) fn is_nth_at_selector(p: &mut CssParser, n: usize) -> bool {
 /// if this compound selector forms part of a complex selector and continues parsing accordingly.
 #[inline]
 pub(crate) fn parse_selector(p: &mut CssParser) -> ParsedSyntax {
-    if !is_nth_at_selector(p, 0) {
-        return Absent;
+    if is_nth_at_selector(p, 0) {
+        // In CSS, we have compound selectors and complex selectors.
+        // Compound selectors are simple, unseparated chains of selectors,
+        // while complex selectors are compound selectors separated by combinators.
+        // After parsing the compound selector, it then checks if this compound selector is a part of a complex selector.
+        parse_compound_selector(p).and_then(|selector| parse_complex_selector(p, selector))
+    } else if is_at_grit_metavariable(p) {
+        parse_grit_metavariable(p)
+    } else {
+        Absent
     }
-
-    // In CSS, we have compound selectors and complex selectors.
-    // Compound selectors are simple, unseparated chains of selectors,
-    // while complex selectors are compound selectors separated by combinators.
-    // After parsing the compound selector, it then checks if this compound selector is a part of a complex selector.
-    parse_compound_selector(p).and_then(|selector| parse_complex_selector(p, selector))
 }
 
 const COMPLEX_SELECTOR_COMBINATOR_SET: TokenSet<CssSyntaxKind> =

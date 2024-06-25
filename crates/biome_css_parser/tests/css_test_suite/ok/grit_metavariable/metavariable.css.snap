@@ -16,6 +16,8 @@ expression: snapshot
 .baz {
     @media $baz {}
 }
+
+$qux {}
 ```
 
 
@@ -130,17 +132,30 @@ CssRoot {
                 r_curly_token: R_CURLY@72..74 "}" [Newline("\n")] [],
             },
         },
+        CssQualifiedRule {
+            prelude: CssSelectorList [
+                CssGritMetavariable {
+                    dollar_token: DOLLAR@74..77 "$" [Newline("\n"), Newline("\n")] [],
+                    id_token: IDENT@77..81 "qux" [] [Whitespace(" ")],
+                },
+            ],
+            block: CssDeclarationOrRuleBlock {
+                l_curly_token: L_CURLY@81..82 "{" [] [],
+                items: CssDeclarationOrRuleList [],
+                r_curly_token: R_CURLY@82..83 "}" [] [],
+            },
+        },
     ],
-    eof_token: EOF@74..74 "" [] [],
+    eof_token: EOF@83..83 "" [] [],
 }
 ```
 
 ## CST
 
 ```
-0: CSS_ROOT@0..74
+0: CSS_ROOT@0..83
   0: (empty)
-  1: CSS_RULE_LIST@0..74
+  1: CSS_RULE_LIST@0..83
     0: CSS_QUALIFIED_RULE@0..26
       0: CSS_SELECTOR_LIST@0..5
         0: CSS_COMPOUND_SELECTOR@0..5
@@ -210,6 +225,15 @@ CssRoot {
                 1: CSS_DECLARATION_OR_RULE_LIST@71..71
                 2: R_CURLY@71..72 "}" [] []
         2: R_CURLY@72..74 "}" [Newline("\n")] []
-  2: EOF@74..74 "" [] []
+    3: CSS_QUALIFIED_RULE@74..83
+      0: CSS_SELECTOR_LIST@74..81
+        0: CSS_GRIT_METAVARIABLE@74..81
+          0: DOLLAR@74..77 "$" [Newline("\n"), Newline("\n")] []
+          1: IDENT@77..81 "qux" [] [Whitespace(" ")]
+      1: CSS_DECLARATION_OR_RULE_BLOCK@81..83
+        0: L_CURLY@81..82 "{" [] []
+        1: CSS_DECLARATION_OR_RULE_LIST@82..82
+        2: R_CURLY@82..83 "}" [] []
+  2: EOF@83..83 "" [] []
 
 ```

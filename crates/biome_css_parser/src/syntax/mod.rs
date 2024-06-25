@@ -14,7 +14,7 @@ use crate::syntax::parse_error::{expected_any_rule, expected_non_css_wide_keywor
 use crate::syntax::property::color::{is_at_color, parse_color};
 use crate::syntax::property::unicode_range::{is_at_unicode_range, parse_unicode_range};
 use crate::syntax::property::{is_at_any_property, parse_any_property};
-use crate::syntax::selector::is_nth_at_selector;
+use crate::syntax::selector::is_nth_at_any_selector;
 use crate::syntax::selector::relative_selector::{is_at_relative_selector, RelativeSelectorList};
 use crate::syntax::selector::SelectorList;
 use crate::syntax::value::function::BINARY_OPERATION_TOKEN;
@@ -108,7 +108,7 @@ impl ParseNodeList for RuleList {
 
 #[inline]
 pub(crate) fn is_at_qualified_rule(p: &mut CssParser) -> bool {
-    is_nth_at_selector(p, 0)
+    is_nth_at_any_selector(p, 0)
 }
 
 #[inline]
@@ -264,6 +264,10 @@ pub(crate) fn is_at_any_value(p: &mut CssParser) -> bool {
 
 pub(crate) fn is_at_grit_metavariable(p: &mut CssParser) -> bool {
     p.at(T![$]) && is_nth_at_identifier(p, 1)
+}
+
+pub(crate) fn is_nth_at_grit_metavariable(p: &mut CssParser, n: usize) -> bool {
+    p.nth_at(n, T![$]) && is_nth_at_identifier(p, n + 1)
 }
 
 #[inline]

@@ -9,3 +9,5 @@
 .baz {
     @media $baz {}
 }
+
+$qux {}
