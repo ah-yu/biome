@@ -29,6 +29,10 @@ pub struct CssParserOptions {
     /// Enables parsing of CSS Modules specific features.
     /// Defaults to `false`.
     pub css_modules: bool,
+
+    /// Enables parsing of Grit meta variables.
+    /// Defaults to `false`.
+    pub grit_metavariable: bool,
 }
 
 impl CssParserOptions {
@@ -44,13 +48,18 @@ impl CssParserOptions {
         self
     }
 
+    pub fn allow_grit_metavariable(mut self) -> Self {
+        self.grit_metavariable = true;
+        self
+    }
+
     /// Checks if parsing of CSS Modules features is disabled.
     pub fn is_css_modules_disabled(&self) -> bool {
         !self.css_modules
     }
 
     pub fn is_grit_variable_enabled(&self) -> bool {
-        true
+        self.grit_metavariable
     }
 }
 

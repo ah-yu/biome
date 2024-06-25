@@ -40,7 +40,9 @@ pub fn run(test_case: &str, _snapshot_name: &str, test_directory: &str, outcome_
     let content = fs::read_to_string(test_case_path)
         .expect("Expected test path to be a readable file in UTF8 encoding");
 
-    let mut options = CssParserOptions::default();
+    let mut options = CssParserOptions::default()
+        // grit metavariables is an internal flag and it won't be exposed to users, so it can't be set via configuration
+        .allow_grit_metavariable();
 
     let options_path = Path::new(test_directory).join("options.json");
 
@@ -182,7 +184,8 @@ $foo{
         code,
         CssParserOptions::default()
             .allow_wrong_line_comments()
-            .allow_css_modules(),
+            .allow_css_modules()
+            .allow_grit_metavariable(),
     );
     let syntax = root.syntax();
     dbg!(&syntax, root.diagnostics(), root.has_errors());

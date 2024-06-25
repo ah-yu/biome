@@ -222,6 +222,7 @@ fn parse(
         css_modules: settings
             .map(|s| s.languages.css.parser.css_modules)
             .unwrap_or_default(),
+        grit_metavariable: false,
     };
     if let Some(settings) = settings {
         options = settings
