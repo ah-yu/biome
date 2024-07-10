@@ -691,6 +691,8 @@ dependencies = [
 name = "biome_js_formatter"
 version = "0.5.7"
 dependencies = [
+ "biome_css_formatter",
+ "biome_css_parser",
  "biome_deserialize",
  "biome_deserialize_macros",
  "biome_diagnostics_categories",
@@ -775,6 +777,7 @@ version = "0.5.7"
 dependencies = [
  "biome_analyze",
  "biome_diagnostics",
+ "biome_formatter",
  "biome_js_factory",
  "biome_js_formatter",
  "biome_js_parser",
@@ -1086,6 +1089,7 @@ version = "1.7.3"
 dependencies = [
  "biome_console",
  "biome_diagnostics",
+ "biome_formatter",
  "biome_js_factory",
  "biome_js_formatter",
  "biome_rowan",
