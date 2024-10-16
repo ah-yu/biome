@@ -155,6 +155,7 @@ pub const JS_KINDS_SRC: KindsSrc = KindsSrc {
         "of",
         "out",
         "using",
+        "defer",
     ],
     literals: &[
         "JS_NUMBER_LITERAL",
@@ -382,6 +383,9 @@ pub const JS_KINDS_SRC: KindsSrc = KindsSrc {
         "JS_DECORATOR",
         "JS_DECORATOR_LIST",
         "JS_LABEL",
+        "JS_DEFER_IMPORT_CLAUSE",
+        "JS_PHASE_IMPORT_CLAUSE",
+        "JS_PHASE_IMPORT_CALL_EXPRESSION",
         // TypeScript
         "TS_IDENTIFIER_BINDING",
         "TS_ANY_TYPE",

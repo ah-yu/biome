@@ -170,6 +170,10 @@ macro_rules! map_syntax_node {
                     let $pattern = unsafe { $crate::JsDefaultImportSpecifier::new_unchecked(node) };
                     $body
                 }
+                $crate::JsSyntaxKind::JS_DEFER_IMPORT_CLAUSE => {
+                    let $pattern = unsafe { $crate::JsDeferImportClause::new_unchecked(node) };
+                    $body
+                }
                 $crate::JsSyntaxKind::JS_DIRECTIVE => {
                     let $pattern = unsafe { $crate::JsDirective::new_unchecked(node) };
                     $body

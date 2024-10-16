@@ -1232,6 +1232,7 @@ AnyJsImportClause =
     | JsImportDefaultClause
     | JsImportNamespaceClause
 	| JsImportCombinedClause
+	| JsDeferImportClause
 
 // import "abcd"
 // import "abcd" assert ...
@@ -1252,6 +1253,14 @@ JsImportDefaultClause =
 // import type * as foo from "mod";
 JsImportNamespaceClause =
 	'type'?
+	namespace_specifier: JsNamespaceImportSpecifier
+	'from'
+	source: AnyJsModuleSource
+	assertion: JsImportAssertion?
+
+// import defer * as ns from 'module'
+JsDeferImportClause =
+	'defer'
 	namespace_specifier: JsNamespaceImportSpecifier
 	'from'
 	source: AnyJsModuleSource
