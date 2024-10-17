@@ -222,6 +222,7 @@ fn remove_import_specifier(
         AnyJsImportClause::JsImportBareClause(_)
         | AnyJsImportClause::JsImportDefaultClause(_)
         | AnyJsImportClause::JsImportNamedClause(_)
+        | AnyJsImportClause::JsDeferredImportClause(_)
         | AnyJsImportClause::JsImportNamespaceClause(_) => {
             // Remove the entire statement
             let import = clause.parent::<JsImport>()?;

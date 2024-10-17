@@ -41,6 +41,7 @@ use rustc_hash::FxHashMap;
 use super::auxiliary::{is_nth_at_declaration_clause, parse_declaration_clause};
 use super::js_parse_error::{expected_named_import, expected_namespace_import};
 use super::metavariable::{is_at_metavariable, parse_metavariable};
+use super::typescript::try_parse;
 
 // test js module
 // import a from "b";
@@ -258,11 +259,71 @@ pub(crate) fn parse_import_or_import_equals_declaration(p: &mut JsParser) -> Par
     statement
 }
 
+// test js deferred_import_clause
+// import defer * as ns from 'module'
+// import defer from 'module'
+fn parse_deferred_import_clause(p: &mut JsParser) -> ParsedSyntax {
+    if !p.at(T![defer]) || !p.nth_at(1, T![*]) {
+        return Absent;
+    }
+    let m = p.start();
+
+    p.bump_any();
+    let mut clause = parse_import_namespace_clause_rest(p, m);
+    clause.change_kind(p, JS_DEFERRED_IMPORT_CLAUSE);
+    Present(clause)
+}
+
 // test js import_default_clause
 // import foo from "test";
 fn parse_import_clause(p: &mut JsParser) -> ParsedSyntax {
     if p.at(JS_STRING_LITERAL) {
         return parse_import_bare_clause(p);
+    }
+
+    if p.at(T![defer]) {
+        if p.nth_at(1, T![*]) {
+            return parse_deferred_import_clause(p);
+        }
+
+        // test_err js deferred_import_clause_err
+        // import defer { x } from 'module'
+        // import defer x from 'module'
+        // import defer x, { y } from 'module'
+        //
+        // test_err ts ts_deferred_import_clause_err
+        // import type defer * as ns from 'module'
+        if (is_nth_at_identifier_binding(p, 1) && !p.nth_at(1, T![from])) || p.nth_at(1, T!['{']) {
+            let clause = try_parse(p, |p| {
+                p.bump_any();
+                let m = p.start();
+                let previous_error_count = p.context().diagnostics().len();
+                let clause = if p.at(T!['{']) {
+                    parse_import_named_clause_rest(p, m)
+                } else {
+                    let default_specifier = p.start();
+                    parse_identifier_binding(p).unwrap();
+                    default_specifier.complete(p, JS_DEFAULT_IMPORT_SPECIFIER);
+                    parse_import_default_clauses_rest(p, m, false)
+                };
+
+                if p.context().diagnostics().len() != previous_error_count {
+                    return Err(());
+                }
+
+                let range = clause.range(p);
+                p.error(p.err_builder(
+                    "Only `import defer * as x from \"./module\"` is valid",
+                    range.start()..range.end(),
+                ));
+
+                Ok(Present(clause))
+            });
+
+            if let Ok(clause) = clause {
+                return clause;
+            }
+        }
     }
 
     let pos = p.source().position();

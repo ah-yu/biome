@@ -143,6 +143,7 @@ impl Rule for UseImportType {
         let model = ctx.model();
         match import_clause {
             AnyJsImportClause::JsImportBareClause(_) => None,
+            AnyJsImportClause::JsDeferredImportClause(_) => None,
             AnyJsImportClause::JsImportCombinedClause(clause) => {
                 let default_binding = clause.default_specifier().ok()?.local_name().ok()?;
                 let default_binding = default_binding.as_js_identifier_binding()?;
@@ -346,6 +347,9 @@ impl Rule for UseImportType {
         match state {
             ImportTypeFix::UseImportType => match import_clause {
                 AnyJsImportClause::JsImportBareClause(_) => {
+                    unreachable!();
+                }
+                AnyJsImportClause::JsDeferredImportClause(_) => {
                     unreachable!();
                 }
                 AnyJsImportClause::JsImportCombinedClause(import_combined_clause) => {

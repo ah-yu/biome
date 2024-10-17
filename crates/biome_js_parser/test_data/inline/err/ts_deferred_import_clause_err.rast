@@ -1,0 +1,78 @@
+JsModule {
+    bom_token: missing (optional),
+    interpreter_token: missing (optional),
+    directives: JsDirectiveList [],
+    items: JsModuleItemList [
+        JsBogusStatement {
+            items: [
+                IMPORT_KW@0..7 "import" [] [Whitespace(" ")],
+                JsBogus {
+                    items: [
+                        TYPE_KW@7..12 "type" [] [Whitespace(" ")],
+                        JsDefaultImportSpecifier {
+                            local_name: JsIdentifierBinding {
+                                name_token: IDENT@12..18 "defer" [] [Whitespace(" ")],
+                            },
+                        },
+                        JsNamespaceImportSpecifier {
+                            star_token: STAR@18..20 "*" [] [Whitespace(" ")],
+                            as_token: AS_KW@20..23 "as" [] [Whitespace(" ")],
+                            local_name: JsIdentifierBinding {
+                                name_token: IDENT@23..26 "ns" [] [Whitespace(" ")],
+                            },
+                        },
+                        FROM_KW@26..31 "from" [] [Whitespace(" ")],
+                        JsModuleSource {
+                            value_token: JS_STRING_LITERAL@31..39 "'module'" [] [],
+                        },
+                    ],
+                },
+            ],
+        },
+    ],
+    eof_token: EOF@39..40 "" [Newline("\n")] [],
+}
+
+0: JS_MODULE@0..40
+  0: (empty)
+  1: (empty)
+  2: JS_DIRECTIVE_LIST@0..0
+  3: JS_MODULE_ITEM_LIST@0..39
+    0: JS_BOGUS_STATEMENT@0..39
+      0: IMPORT_KW@0..7 "import" [] [Whitespace(" ")]
+      1: JS_BOGUS@7..39
+        0: TYPE_KW@7..12 "type" [] [Whitespace(" ")]
+        1: JS_DEFAULT_IMPORT_SPECIFIER@12..18
+          0: JS_IDENTIFIER_BINDING@12..18
+            0: IDENT@12..18 "defer" [] [Whitespace(" ")]
+        2: JS_NAMESPACE_IMPORT_SPECIFIER@18..26
+          0: STAR@18..20 "*" [] [Whitespace(" ")]
+          1: AS_KW@20..23 "as" [] [Whitespace(" ")]
+          2: JS_IDENTIFIER_BINDING@23..26
+            0: IDENT@23..26 "ns" [] [Whitespace(" ")]
+        3: FROM_KW@26..31 "from" [] [Whitespace(" ")]
+        4: JS_MODULE_SOURCE@31..39
+          0: JS_STRING_LITERAL@31..39 "'module'" [] []
+  4: EOF@39..40 "" [Newline("\n")] []
+--
+ts_deferred_import_clause_err.ts:1:19 parse ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × expected `,` but instead found `*`
+  
+  > 1 │ import type defer * as ns from 'module'
+      │                   ^
+    2 │ 
+  
+  i Remove *
+  
+--
+ts_deferred_import_clause_err.ts:1:8 parse ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × A type-only import can specify a default import or named bindings, but not both.
+  
+  > 1 │ import type defer * as ns from 'module'
+      │        ^^^^^^^^^^^^^^^^^^
+    2 │ 
+  
+--
+import type defer * as ns from 'module'

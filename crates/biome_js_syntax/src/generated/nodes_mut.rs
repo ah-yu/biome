@@ -806,7 +806,7 @@ impl JsDefaultImportSpecifier {
         )
     }
 }
-impl JsDeferImportClause {
+impl JsDeferredImportClause {
     pub fn with_defer_token(self, element: SyntaxToken) -> Self {
         Self::unwrap_cast(
             self.syntax

@@ -34,6 +34,8 @@ import {a} from 'a'
 import {d} from 'd'
 import {b} from 'b'
 export const bb = a + b
+
+import defer * as all from "all"
 ```
 
 # Diagnostics
@@ -335,6 +337,28 @@ invalid.js:28:9 lint/correctness/noUnusedImports  FIXABLE  ━━━━━━━
     28    │ - import·{d}·from·'d'
     29 28 │   import {b} from 'b'
     30 29 │   export const bb = a + b
+  
+
+```
+
+```
+invalid.js:32:19 lint/correctness/noUnusedImports  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! This import is unused.
+  
+    30 │ export const bb = a + b
+    31 │ 
+  > 32 │ import defer * as all from "all"
+       │                   ^^^
+  
+  i Unused imports might be the result of an incomplete refactoring.
+  
+  i Safe fix: Remove the unused import.
+  
+    29 29 │   import {b} from 'b'
+    30 30 │   export const bb = a + b
+    31    │ - 
+    32    │ - import·defer·*·as·all·from·"all"
   
 
 ```

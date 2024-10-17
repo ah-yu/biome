@@ -1350,7 +1350,7 @@ impl SyntaxFactory for JsSyntaxFactory {
                 }
                 slots.into_node(JS_DEFAULT_IMPORT_SPECIFIER, children)
             }
-            JS_DEFER_IMPORT_CLAUSE => {
+            JS_DEFERRED_IMPORT_CLAUSE => {
                 let mut elements = (&children).into_iter();
                 let mut slots: RawNodeSlots<5usize> = RawNodeSlots::default();
                 let mut current_element = elements.next();
@@ -1391,11 +1391,11 @@ impl SyntaxFactory for JsSyntaxFactory {
                 slots.next_slot();
                 if current_element.is_some() {
                     return RawSyntaxNode::new(
-                        JS_DEFER_IMPORT_CLAUSE.to_bogus(),
+                        JS_DEFERRED_IMPORT_CLAUSE.to_bogus(),
                         children.into_iter().map(Some),
                     );
                 }
-                slots.into_node(JS_DEFER_IMPORT_CLAUSE, children)
+                slots.into_node(JS_DEFERRED_IMPORT_CLAUSE, children)
             }
             JS_DIRECTIVE => {
                 let mut elements = (&children).into_iter();

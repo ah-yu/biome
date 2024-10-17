@@ -8,6 +8,7 @@ impl FormatRule<AnyJsImportClause> for FormatAnyJsImportClause {
     type Context = JsFormatContext;
     fn fmt(&self, node: &AnyJsImportClause, f: &mut JsFormatter) -> FormatResult<()> {
         match node {
+            AnyJsImportClause::JsDeferredImportClause(node) => node.format().fmt(f),
             AnyJsImportClause::JsImportBareClause(node) => node.format().fmt(f),
             AnyJsImportClause::JsImportCombinedClause(node) => node.format().fmt(f),
             AnyJsImportClause::JsImportDefaultClause(node) => node.format().fmt(f),

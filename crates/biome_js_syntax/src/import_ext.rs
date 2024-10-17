@@ -44,6 +44,7 @@ impl AnyJsImportClause {
             Self::JsImportNamedClause(clause) => clause.type_token(),
             Self::JsImportNamespaceClause(clause) => clause.type_token(),
             Self::JsImportCombinedClause(_) => None,
+            Self::JsDeferredImportClause(_) => None,
         }
     }
 
@@ -67,6 +68,7 @@ impl AnyJsImportClause {
             Self::JsImportNamedClause(clause) => clause.source(),
             Self::JsImportNamespaceClause(clause) => clause.source(),
             Self::JsImportCombinedClause(clause) => clause.source(),
+            Self::JsDeferredImportClause(clause) => clause.source(),
         };
 
         source.and_then(|source| match source {
@@ -95,6 +97,7 @@ impl AnyJsImportClause {
             Self::JsImportNamedClause(clause) => clause.assertion(),
             Self::JsImportNamespaceClause(clause) => clause.assertion(),
             Self::JsImportCombinedClause(clause) => clause.assertion(),
+            Self::JsDeferredImportClause(clause) => clause.assertion(),
         }
     }
 }

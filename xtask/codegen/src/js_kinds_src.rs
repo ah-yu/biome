@@ -383,9 +383,7 @@ pub const JS_KINDS_SRC: KindsSrc = KindsSrc {
         "JS_DECORATOR",
         "JS_DECORATOR_LIST",
         "JS_LABEL",
-        "JS_DEFER_IMPORT_CLAUSE",
-        "JS_PHASE_IMPORT_CLAUSE",
-        "JS_PHASE_IMPORT_CALL_EXPRESSION",
+        "JS_DEFERRED_IMPORT_CLAUSE",
         // TypeScript
         "TS_IDENTIFIER_BINDING",
         "TS_ANY_TYPE",

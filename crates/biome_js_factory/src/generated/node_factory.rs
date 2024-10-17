@@ -847,13 +847,13 @@ pub fn js_default_import_specifier(local_name: AnyJsBinding) -> JsDefaultImportS
         [Some(SyntaxElement::Node(local_name.into_syntax()))],
     ))
 }
-pub fn js_defer_import_clause(
+pub fn js_deferred_import_clause(
     defer_token: SyntaxToken,
     namespace_specifier: JsNamespaceImportSpecifier,
     from_token: SyntaxToken,
     source: AnyJsModuleSource,
-) -> JsDeferImportClauseBuilder {
-    JsDeferImportClauseBuilder {
+) -> JsDeferredImportClauseBuilder {
+    JsDeferredImportClauseBuilder {
         defer_token,
         namespace_specifier,
         from_token,
@@ -861,21 +861,21 @@ pub fn js_defer_import_clause(
         assertion: None,
     }
 }
-pub struct JsDeferImportClauseBuilder {
+pub struct JsDeferredImportClauseBuilder {
     defer_token: SyntaxToken,
     namespace_specifier: JsNamespaceImportSpecifier,
     from_token: SyntaxToken,
     source: AnyJsModuleSource,
     assertion: Option<JsImportAssertion>,
 }
-impl JsDeferImportClauseBuilder {
+impl JsDeferredImportClauseBuilder {
     pub fn with_assertion(mut self, assertion: JsImportAssertion) -> Self {
         self.assertion = Some(assertion);
         self
     }
-    pub fn build(self) -> JsDeferImportClause {
-        JsDeferImportClause::unwrap_cast(SyntaxNode::new_detached(
-            JsSyntaxKind::JS_DEFER_IMPORT_CLAUSE,
+    pub fn build(self) -> JsDeferredImportClause {
+        JsDeferredImportClause::unwrap_cast(SyntaxNode::new_detached(
+            JsSyntaxKind::JS_DEFERRED_IMPORT_CLAUSE,
             [
                 Some(SyntaxElement::Token(self.defer_token)),
                 Some(SyntaxElement::Node(self.namespace_specifier.into_syntax())),

@@ -59,6 +59,7 @@ impl Rule for NoTypeOnlyImportAttributes {
             },
             AnyJsModuleItem::JsImport(import) => match import.import_clause().ok()? {
                 AnyJsImportClause::JsImportBareClause(_) => None,
+                AnyJsImportClause::JsDeferredImportClause(_) => None,
                 AnyJsImportClause::JsImportCombinedClause(clause) => {
                     let assertion_range = clause.assertion()?.range();
                     let type_token = find_first_type_token(

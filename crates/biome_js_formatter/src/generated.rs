@@ -1288,6 +1288,46 @@ impl IntoFormat<JsFormatContext> for biome_js_syntax::JsDefaultImportSpecifier {
         )
     }
 }
+impl FormatRule<biome_js_syntax::JsDeferredImportClause>
+    for crate::js::auxiliary::deferred_import_clause::FormatJsDeferredImportClause
+{
+    type Context = JsFormatContext;
+    #[inline(always)]
+    fn fmt(
+        &self,
+        node: &biome_js_syntax::JsDeferredImportClause,
+        f: &mut JsFormatter,
+    ) -> FormatResult<()> {
+        FormatNodeRule::<biome_js_syntax::JsDeferredImportClause>::fmt(self, node, f)
+    }
+}
+impl AsFormat<JsFormatContext> for biome_js_syntax::JsDeferredImportClause {
+    type Format<'a> = FormatRefWithRule<
+        'a,
+        biome_js_syntax::JsDeferredImportClause,
+        crate::js::auxiliary::deferred_import_clause::FormatJsDeferredImportClause,
+    >;
+    fn format(&self) -> Self::Format<'_> {
+        #![allow(clippy::default_constructed_unit_structs)]
+        FormatRefWithRule::new(
+            self,
+            crate::js::auxiliary::deferred_import_clause::FormatJsDeferredImportClause::default(),
+        )
+    }
+}
+impl IntoFormat<JsFormatContext> for biome_js_syntax::JsDeferredImportClause {
+    type Format = FormatOwnedWithRule<
+        biome_js_syntax::JsDeferredImportClause,
+        crate::js::auxiliary::deferred_import_clause::FormatJsDeferredImportClause,
+    >;
+    fn into_format(self) -> Self::Format {
+        #![allow(clippy::default_constructed_unit_structs)]
+        FormatOwnedWithRule::new(
+            self,
+            crate::js::auxiliary::deferred_import_clause::FormatJsDeferredImportClause::default(),
+        )
+    }
+}
 impl FormatRule<biome_js_syntax::JsDirective>
     for crate::js::auxiliary::directive::FormatJsDirective
 {
