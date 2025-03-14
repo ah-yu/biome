@@ -1062,7 +1062,9 @@ pub(crate) fn is_nth_at_let_variable_statement(p: &mut JsParser, n: usize) -> bo
         return false;
     }
 
-    matches!(p.nth(n + 1), T!['{'] | T!['[']) || is_nth_at_identifier(p, n + 1)
+    matches!(p.nth(n + 1), T!['{'] | T!['['])
+        || is_nth_at_identifier(p, n + 1)
+        || is_nth_at_metavariable(p, n + 1)
 }
 
 /// A var, const, using or let declaration statement such as `var a = 5, b;` or `let {a, b} = foo;`

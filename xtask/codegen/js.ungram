@@ -894,6 +894,7 @@ AnyJsAssignment =
 	| TsSatisfiesAssignment
 	| TsTypeAssertionAssignment
 	| JsBogusAssignment
+	| JsMetavariable
 
 
 JsArrayAssignmentPatternElement =

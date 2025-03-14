@@ -13511,6 +13511,7 @@ pub enum AnyJsAssignment {
     JsBogusAssignment(JsBogusAssignment),
     JsComputedMemberAssignment(JsComputedMemberAssignment),
     JsIdentifierAssignment(JsIdentifierAssignment),
+    JsMetavariable(JsMetavariable),
     JsParenthesizedAssignment(JsParenthesizedAssignment),
     JsStaticMemberAssignment(JsStaticMemberAssignment),
     TsAsAssignment(TsAsAssignment),
@@ -13534,6 +13535,12 @@ impl AnyJsAssignment {
     pub fn as_js_identifier_assignment(&self) -> Option<&JsIdentifierAssignment> {
         match &self {
             AnyJsAssignment::JsIdentifierAssignment(item) => Some(item),
+            _ => None,
+        }
+    }
+    pub fn as_js_metavariable(&self) -> Option<&JsMetavariable> {
+        match &self {
+            AnyJsAssignment::JsMetavariable(item) => Some(item),
             _ => None,
         }
     }
@@ -32679,6 +32686,11 @@ impl From<JsIdentifierAssignment> for AnyJsAssignment {
         AnyJsAssignment::JsIdentifierAssignment(node)
     }
 }
+impl From<JsMetavariable> for AnyJsAssignment {
+    fn from(node: JsMetavariable) -> AnyJsAssignment {
+        AnyJsAssignment::JsMetavariable(node)
+    }
+}
 impl From<JsParenthesizedAssignment> for AnyJsAssignment {
     fn from(node: JsParenthesizedAssignment) -> AnyJsAssignment {
         AnyJsAssignment::JsParenthesizedAssignment(node)
@@ -32714,6 +32726,7 @@ impl AstNode for AnyJsAssignment {
     const KIND_SET: SyntaxKindSet<Language> = JsBogusAssignment::KIND_SET
         .union(JsComputedMemberAssignment::KIND_SET)
         .union(JsIdentifierAssignment::KIND_SET)
+        .union(JsMetavariable::KIND_SET)
         .union(JsParenthesizedAssignment::KIND_SET)
         .union(JsStaticMemberAssignment::KIND_SET)
         .union(TsAsAssignment::KIND_SET)
@@ -32726,6 +32739,7 @@ impl AstNode for AnyJsAssignment {
             JS_BOGUS_ASSIGNMENT
                 | JS_COMPUTED_MEMBER_ASSIGNMENT
                 | JS_IDENTIFIER_ASSIGNMENT
+                | JS_METAVARIABLE
                 | JS_PARENTHESIZED_ASSIGNMENT
                 | JS_STATIC_MEMBER_ASSIGNMENT
                 | TS_AS_ASSIGNMENT
@@ -32743,6 +32757,7 @@ impl AstNode for AnyJsAssignment {
             JS_IDENTIFIER_ASSIGNMENT => {
                 AnyJsAssignment::JsIdentifierAssignment(JsIdentifierAssignment { syntax })
             }
+            JS_METAVARIABLE => AnyJsAssignment::JsMetavariable(JsMetavariable { syntax }),
             JS_PARENTHESIZED_ASSIGNMENT => {
                 AnyJsAssignment::JsParenthesizedAssignment(JsParenthesizedAssignment { syntax })
             }
@@ -32770,6 +32785,7 @@ impl AstNode for AnyJsAssignment {
             AnyJsAssignment::JsBogusAssignment(it) => &it.syntax,
             AnyJsAssignment::JsComputedMemberAssignment(it) => &it.syntax,
             AnyJsAssignment::JsIdentifierAssignment(it) => &it.syntax,
+            AnyJsAssignment::JsMetavariable(it) => &it.syntax,
             AnyJsAssignment::JsParenthesizedAssignment(it) => &it.syntax,
             AnyJsAssignment::JsStaticMemberAssignment(it) => &it.syntax,
             AnyJsAssignment::TsAsAssignment(it) => &it.syntax,
@@ -32783,6 +32799,7 @@ impl AstNode for AnyJsAssignment {
             AnyJsAssignment::JsBogusAssignment(it) => it.syntax,
             AnyJsAssignment::JsComputedMemberAssignment(it) => it.syntax,
             AnyJsAssignment::JsIdentifierAssignment(it) => it.syntax,
+            AnyJsAssignment::JsMetavariable(it) => it.syntax,
             AnyJsAssignment::JsParenthesizedAssignment(it) => it.syntax,
             AnyJsAssignment::JsStaticMemberAssignment(it) => it.syntax,
             AnyJsAssignment::TsAsAssignment(it) => it.syntax,
@@ -32798,6 +32815,7 @@ impl std::fmt::Debug for AnyJsAssignment {
             AnyJsAssignment::JsBogusAssignment(it) => std::fmt::Debug::fmt(it, f),
             AnyJsAssignment::JsComputedMemberAssignment(it) => std::fmt::Debug::fmt(it, f),
             AnyJsAssignment::JsIdentifierAssignment(it) => std::fmt::Debug::fmt(it, f),
+            AnyJsAssignment::JsMetavariable(it) => std::fmt::Debug::fmt(it, f),
             AnyJsAssignment::JsParenthesizedAssignment(it) => std::fmt::Debug::fmt(it, f),
             AnyJsAssignment::JsStaticMemberAssignment(it) => std::fmt::Debug::fmt(it, f),
             AnyJsAssignment::TsAsAssignment(it) => std::fmt::Debug::fmt(it, f),
@@ -32813,6 +32831,7 @@ impl From<AnyJsAssignment> for SyntaxNode {
             AnyJsAssignment::JsBogusAssignment(it) => it.into(),
             AnyJsAssignment::JsComputedMemberAssignment(it) => it.into(),
             AnyJsAssignment::JsIdentifierAssignment(it) => it.into(),
+            AnyJsAssignment::JsMetavariable(it) => it.into(),
             AnyJsAssignment::JsParenthesizedAssignment(it) => it.into(),
             AnyJsAssignment::JsStaticMemberAssignment(it) => it.into(),
             AnyJsAssignment::TsAsAssignment(it) => it.into(),

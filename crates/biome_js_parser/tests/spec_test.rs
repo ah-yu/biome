@@ -180,10 +180,14 @@ pub fn run(test_case: &str, _snapshot_name: &str, test_directory: &str, outcome_
 #[test]
 pub fn quick_test() {
     let code = r#"
-type T = import;
+for( µ_ in µ_ ) { µ_ }
     "#;
 
-    let root = parse(code, JsFileSource::ts(), JsParserOptions::default());
+    let root = parse(
+        code,
+        JsFileSource::ts(),
+        JsParserOptions::default().with_metavariables(),
+    );
     let syntax = root.syntax();
     dbg!(&syntax, root.diagnostics(), root.has_errors());
     if has_bogus_nodes_or_empty_slots(&syntax) {

@@ -18,7 +18,9 @@ impl NeedsParentheses for AnyJsAssignment {
             Self::TsSatisfiesAssignment(assignment) => assignment.needs_parentheses(),
             Self::TsNonNullAssertionAssignment(assignment) => assignment.needs_parentheses(),
             Self::TsTypeAssertionAssignment(assignment) => assignment.needs_parentheses(),
-            Self::JsParenthesizedAssignment(_) | Self::JsBogusAssignment(_) => false,
+            Self::JsParenthesizedAssignment(_)
+            | Self::JsBogusAssignment(_)
+            | Self::JsMetavariable(_) => false,
         }
     }
 }

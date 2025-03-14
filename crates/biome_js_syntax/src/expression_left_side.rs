@@ -88,7 +88,8 @@ impl AnyJsExpressionLeftSide {
                         }
                         AnyJsAssignment::JsParenthesizedAssignment(_)
                         | AnyJsAssignment::JsIdentifierAssignment(_)
-                        | AnyJsAssignment::JsBogusAssignment(_) => None,
+                        | AnyJsAssignment::JsBogusAssignment(_)
+                        | AnyJsAssignment::JsMetavariable(_) => None,
                     },
                     AnyJsAssignmentPattern::JsArrayAssignmentPattern(_)
                     | AnyJsAssignmentPattern::JsObjectAssignmentPattern(_) => None,

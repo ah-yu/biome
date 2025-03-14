@@ -11,6 +11,7 @@ impl FormatRule<AnyJsAssignment> for FormatAnyJsAssignment {
             AnyJsAssignment::JsBogusAssignment(node) => node.format().fmt(f),
             AnyJsAssignment::JsComputedMemberAssignment(node) => node.format().fmt(f),
             AnyJsAssignment::JsIdentifierAssignment(node) => node.format().fmt(f),
+            AnyJsAssignment::JsMetavariable(node) => node.format().fmt(f),
             AnyJsAssignment::JsParenthesizedAssignment(node) => node.format().fmt(f),
             AnyJsAssignment::JsStaticMemberAssignment(node) => node.format().fmt(f),
             AnyJsAssignment::TsAsAssignment(node) => node.format().fmt(f),

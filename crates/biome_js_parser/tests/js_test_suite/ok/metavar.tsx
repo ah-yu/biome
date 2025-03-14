@@ -19,3 +19,9 @@ function µfunctionName() {}
 type µType = µOtherType;
 
 <µtag µ_>µ_</µtag>
+
+let µ_
+
+for (µ_ in µ_) { µ_ }
+for (µ_ of µ_) { µ_ }
+for (µ_; µ_; µ_) { µ_ }

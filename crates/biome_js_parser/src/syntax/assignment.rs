@@ -93,6 +93,7 @@ pub(crate) fn expression_to_assignment_pattern(
             p.rewind(checkpoint);
             ArrayAssignmentPattern.parse_array_pattern(p)
         }
+        JS_METAVARIABLE => Present(target),
         _ => ParsedSyntax::Present(expression_to_assignment(p, target, checkpoint)),
     }
 }

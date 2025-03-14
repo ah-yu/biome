@@ -1,0 +1,56 @@
+---
+source: crates/biome_grit_patterns/tests/spec_tests.rs
+expression: forLoop
+---
+SnapshotResult {
+    messages: [],
+    matched_ranges: [
+        "2:1-2:25",
+        "3:1-3:23",
+        "4:1-4:23",
+        "5:1-5:19",
+        "8:1-8:25",
+        "9:1-9:23",
+        "10:1-10:23",
+        "11:1-11:19",
+        "14:1-14:31",
+        "15:1-15:29",
+        "16:1-16:29",
+        "17:1-17:25",
+        "20:1-20:11",
+        "21:1-21:31",
+    ],
+    rewritten_files: [],
+    created_files: [],
+}
+
+## Logs
+
+Message: matches for-in loop
+Syntax: (GritTargetNode { node: JsLanguage(Node(JS_FOR_IN_STATEMENT@0..34)) })
+Message: matches for-in loop
+Syntax: (GritTargetNode { node: JsLanguage(Node(JS_FOR_IN_STATEMENT@34..57)) })
+Message: matches for-in loop
+Syntax: (GritTargetNode { node: JsLanguage(Node(JS_FOR_IN_STATEMENT@57..80)) })
+Message: matches for-in loop
+Syntax: (GritTargetNode { node: JsLanguage(Node(JS_FOR_IN_STATEMENT@80..99)) })
+Message: matches for-of loop
+Syntax: (GritTargetNode { node: JsLanguage(Node(JS_FOR_OF_STATEMENT@99..135)) })
+Message: matches for-of loop
+Syntax: (GritTargetNode { node: JsLanguage(Node(JS_FOR_OF_STATEMENT@135..158)) })
+Message: matches for-of loop
+Syntax: (GritTargetNode { node: JsLanguage(Node(JS_FOR_OF_STATEMENT@158..181)) })
+Message: matches for-of loop
+Syntax: (GritTargetNode { node: JsLanguage(Node(JS_FOR_OF_STATEMENT@181..200)) })
+Message: matches for-of loop
+Syntax: (GritTargetNode { node: JsLanguage(Node(JS_FOR_OF_STATEMENT@200..248)) })
+Message: matches for-of loop
+Syntax: (GritTargetNode { node: JsLanguage(Node(JS_FOR_OF_STATEMENT@248..277)) })
+Message: matches for-of loop
+Syntax: (GritTargetNode { node: JsLanguage(Node(JS_FOR_OF_STATEMENT@277..306)) })
+Message: matches for-of loop
+Syntax: (GritTargetNode { node: JsLanguage(Node(JS_FOR_OF_STATEMENT@306..331)) })
+Message: matches for loop
+Syntax: (GritTargetNode { node: JsLanguage(Node(JS_FOR_STATEMENT@331..355)) })
+Message: matches for loop
+Syntax: (GritTargetNode { node: JsLanguage(Node(JS_FOR_STATEMENT@355..386)) })
