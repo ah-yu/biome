@@ -34,43 +34,94 @@ fn run_test(input: &'static str, _: &str, _: &str, _: &str) {
         );
     };
 
-    let query = {
-        let query = read_to_string(query_path)
-            .unwrap_or_else(|err| panic!("cannot read query from {query_path:?}: {err:?}"));
+    let query = read_to_string(query_path)
+        .unwrap_or_else(|err| panic!("cannot read query from {query_path:?}: {err:?}"));
 
-        let parse_grit_result = parse_grit(&query);
-        if !parse_grit_result.diagnostics().is_empty() {
-            panic!(
-                "cannot parse query from {query_path:?}:\n{:?}",
-                parse_grit_result.diagnostics()
-            );
-        }
+    let parse_grit_result = parse_grit(&query);
+    if !parse_grit_result.diagnostics().is_empty() {
+        panic!(
+            "cannot parse query from {query_path:?}:\n{:?}",
+            parse_grit_result.diagnostics()
+        );
+    }
 
-        GritQuery::from_node(
-            parse_grit_result.tree(),
-            None,
-            target_lang.clone(),
-            Vec::new(),
-        )
-        .unwrap_or_else(|err| panic!("cannot compile query from {query_path:?}: {err:?}"))
-    };
+    let grit_query = GritQuery::from_node(
+        parse_grit_result.tree(),
+        None,
+        target_lang.clone(),
+        Vec::new(),
+    )
+    .unwrap_or_else(|err| panic!("cannot compile query from {query_path:?}: {err:?}"));
 
-    let target_file = {
-        let target_path = format!("tests/specs/{target_lang_ext}/{test_name}.{target_lang_ext}");
-        let target_path = Utf8Path::new(&target_path);
-        let target_code = read_to_string(target_path)
-            .unwrap_or_else(|err| panic!("failed to read code from {target_path:?}: {err:?}"));
+    let target_path = format!("tests/specs/{target_lang_ext}/{test_name}.{target_lang_ext}");
+    let target_path = Utf8Path::new(&target_path);
+    let target_code = read_to_string(target_path)
+        .unwrap_or_else(|err| panic!("failed to read code from {target_path:?}: {err:?}"));
 
-        GritTargetFile::parse(&target_code, target_path.into(), target_lang)
-    };
+    let target_file = GritTargetFile::parse(&target_code, target_path.into(), target_lang);
 
-    let result = query
+    let result = grit_query
         .execute(target_file)
         .unwrap_or_else(|err| panic!("cannot execute query from {query_path:?}: {err:?}"));
-    let snapshot_result = SnapshotResult::from_query_effects(result.effects);
+    let snapshot_result = SnapshotResult::from_query_effects(result.effects.clone());
+
+    let snapshot = format!("# Target code\n\n```{target_lang_ext}\n{target_code}\n```");
+    let snapshot = format!("{snapshot}\n\n\n# Query\n\n```grit\n{query}\n```");
+
+    let matches_text = &result
+        .effects
+        .iter()
+        .filter_map(|effect| match effect {
+            GritQueryEffect::Match(m) => Some(m),
+            _ => None,
+        })
+        .map(|m| {
+            m.ranges
+                .iter()
+                .map(|range| {
+                    let start = range.start;
+                    let end = range.end;
+
+                    let matched_text = target_code
+                        .lines()
+                        .skip((start.line - 1).try_into().unwrap())
+                        .take((end.line - start.line + 1).try_into().unwrap())
+                        .enumerate()
+                        .map(|(i, line)| {
+                            if i == 0 {
+                                line.chars()
+                                    .skip((start.column - 1).try_into().unwrap())
+                                    .collect::<String>()
+                            } else if i == (end.line as usize) - (start.line as usize) {
+                                line.chars()
+                                    .take((end.column as usize) + 1)
+                                    .collect::<String>()
+                            } else {
+                                line.to_string()
+                            }
+                        })
+                        .collect::<Vec<_>>()
+                        .join("\n");
+                    format!(
+                        "{}:{}-{}:{}\n{}",
+                        range.start.line,
+                        range.start.column,
+                        range.end.line,
+                        range.end.column,
+                        matched_text
+                    )
+                })
+                .collect::<Vec<_>>()
+                .join("\n\n")
+        })
+        .collect::<Vec<_>>()
+        .join("\n");
+
+    let snapshot = format!("{snapshot}\n\n\n# Matches\n\n{matches_text}");
+    let snapshot = format!("{snapshot}\n\n\n# Snapshot result\n\n{snapshot_result:#?}");
 
     let snapshot = if result.logs.is_empty() {
-        format!("{snapshot_result:#?}")
+        snapshot
     } else {
         let logs = result
             .logs
@@ -84,7 +135,7 @@ fn run_test(input: &'static str, _: &str, _: &str, _: &str) {
             })
             .collect::<Vec<_>>()
             .join("\n");
-        format!("{snapshot_result:#?}\n\n## Logs\n\n{logs}")
+        format!("{snapshot}\n\n\n# Logs\n\n{logs}")
     };
 
     insta::with_settings!({
