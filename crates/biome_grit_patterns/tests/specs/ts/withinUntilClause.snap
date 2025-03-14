@@ -2,6 +2,62 @@
 source: crates/biome_grit_patterns/tests/spec_tests.rs
 expression: withinUntilClause
 ---
+# Target code
+
+```ts
+function delay(timeout: number) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, timeout);
+    });
+}
+
+async function unnecessaryAsync(timeout: number) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, timeout);
+    });
+}
+
+async function properUseOfAsync() {
+    const delay = (timeout: number) => {
+        return new Promise((resolve) => {
+            setTimeout(resolve, timeout);
+        });
+    };
+
+    await delay(100);
+}
+
+```
+
+
+# Query
+
+```grit
+`return new Promise($arg)` as $return where {
+    $return <: within `async function $fn($args) { $_ }` until or {
+        `function $_($_) { $_ }`,
+        `const $_ = ($_) => $_`,
+    }
+}
+
+```
+
+
+# Matches
+
+8:5-10:8
+return new Promise((resolve) => {
+        setTimeout(resolve, timeout);
+    });
+
+8:5-10:8
+return new Promise((resolve) => {
+        setTimeout(resolve, timeout);
+    });
+
+
+# Snapshot result
+
 SnapshotResult {
     messages: [],
     matched_ranges: [

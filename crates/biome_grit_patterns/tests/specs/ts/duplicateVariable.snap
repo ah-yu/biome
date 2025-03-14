@@ -2,6 +2,38 @@
 source: crates/biome_grit_patterns/tests/spec_tests.rs
 expression: duplicateVariable
 ---
+# Target code
+
+```ts
+
+foo && foo();
+foo && bar();
+foo && foo.bar();
+bar || bar();
+foo.bar && foo.bar();
+
+```
+
+
+# Query
+
+```grit
+`$fn && $fn()` => `$fn?.()`
+
+```
+
+
+# Matches
+
+2:1-2:13
+foo && foo();
+
+6:1-6:21
+foo.bar && foo.bar();
+
+
+# Snapshot result
+
 SnapshotResult {
     messages: [],
     matched_ranges: [

@@ -2,6 +2,30 @@
 source: crates/biome_grit_patterns/tests/spec_tests.rs
 expression: invalidSnippet
 ---
+# Target code
+
+```ts
+
+// Not going to match anything.
+
+```
+
+
+# Query
+
+```grit
+`"`
+
+```
+
+
+# Matches
+
+
+
+
+# Snapshot result
+
 SnapshotResult {
     messages: [],
     matched_ranges: [],

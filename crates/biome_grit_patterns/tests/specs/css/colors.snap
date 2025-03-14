@@ -2,6 +2,48 @@
 source: crates/biome_grit_patterns/tests/spec_tests.rs
 expression: colors
 ---
+# Target code
+
+```css
+span {
+    color: red;
+}
+
+div {
+    color: blue;
+}
+
+p {
+    color: green;
+}
+
+```
+
+
+# Query
+
+```grit
+`color: $color` where {
+    $color <: or {
+        `red`,
+        `green`,
+    }
+}
+
+```
+
+
+# Matches
+
+2:5-2:15
+color: red;
+
+10:5-10:17
+color: green;
+
+
+# Snapshot result
+
 SnapshotResult {
     messages: [],
     matched_ranges: [

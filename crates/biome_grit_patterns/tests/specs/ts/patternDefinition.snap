@@ -2,6 +2,34 @@
 source: crates/biome_grit_patterns/tests/spec_tests.rs
 expression: patternDefinition
 ---
+# Target code
+
+```ts
+console.log('Hello, world!');
+console.warn('Can you hear me?');
+
+```
+
+
+# Query
+
+```grit
+pattern console_method_to_info($method) {
+  `console.$method($message)` => `console.info($message)`
+}
+console_method_to_info(method = `log`)
+
+```
+
+
+# Matches
+
+1:1-1:29
+console.log('Hello, world!');
+
+
+# Snapshot result
+
 SnapshotResult {
     messages: [],
     matched_ranges: [

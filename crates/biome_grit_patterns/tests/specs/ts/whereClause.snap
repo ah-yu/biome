@@ -2,6 +2,31 @@
 source: crates/biome_grit_patterns/tests/spec_tests.rs
 expression: whereClause
 ---
+# Target code
+
+```ts
+console.log('Hi');
+console.log('Hello, world!');
+
+```
+
+
+# Query
+
+```grit
+`console.log($message)` => . where $message <: js"'Hello, world!'"
+
+```
+
+
+# Matches
+
+2:1-2:29
+console.log('Hello, world!');
+
+
+# Snapshot result
+
 SnapshotResult {
     messages: [],
     matched_ranges: [

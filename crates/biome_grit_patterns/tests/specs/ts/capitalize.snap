@@ -2,6 +2,32 @@
 source: crates/biome_grit_patterns/tests/spec_tests.rs
 expression: capitalize
 ---
+# Target code
+
+```ts
+console.log('hello, world!');
+
+```
+
+
+# Query
+
+```grit
+`console.log($arg)` where {
+    $arg => capitalize(string = $arg)
+}
+
+```
+
+
+# Matches
+
+1:1-1:29
+console.log('hello, world!');
+
+
+# Snapshot result
+
 SnapshotResult {
     messages: [],
     matched_ranges: [

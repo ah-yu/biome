@@ -2,6 +2,32 @@
 source: crates/biome_grit_patterns/tests/spec_tests.rs
 expression: asyncFunctionDoesntMatchNonAsync
 ---
+# Target code
+
+```ts
+function foo() {}
+function bar(){}
+async function foo(){}
+
+```
+
+
+# Query
+
+```grit
+`async function foo() {}`
+
+```
+
+
+# Matches
+
+3:1-3:23
+async function foo(){}
+
+
+# Snapshot result
+
 SnapshotResult {
     messages: [],
     matched_ranges: [

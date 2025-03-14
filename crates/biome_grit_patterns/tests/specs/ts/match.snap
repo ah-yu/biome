@@ -2,6 +2,37 @@
 source: crates/biome_grit_patterns/tests/spec_tests.rs
 expression: match
 ---
+# Target code
+
+```ts
+console.log("matches");
+console.error("matches too");
+console.other("won't match");
+
+```
+
+
+# Query
+
+```grit
+`console.$method($message)` where {
+    $method <: or { `log`, `info`, `warn`, `error` }
+}
+
+```
+
+
+# Matches
+
+1:1-1:23
+console.log("matches");
+
+2:1-2:29
+console.error("matches too");
+
+
+# Snapshot result
+
 SnapshotResult {
     messages: [],
     matched_ranges: [

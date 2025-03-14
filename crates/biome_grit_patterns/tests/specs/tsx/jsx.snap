@@ -2,6 +2,35 @@
 source: crates/biome_grit_patterns/tests/spec_tests.rs
 expression: jsx
 ---
+# Target code
+
+```tsx
+<div style={{}}>{children}</div>;
+<div style={{}} />
+```
+
+
+# Query
+
+```grit
+or {
+    `<µ_ µ_ >µ_</µ_>`,
+    `<µ_ µ_ />`
+}
+```
+
+
+# Matches
+
+1:1-1:33
+<div style={{}}>{children}</div>;
+
+2:1-2:19
+<div style={{}} />
+
+
+# Snapshot result
+
 SnapshotResult {
     messages: [],
     matched_ranges: [

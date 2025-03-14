@@ -2,6 +2,30 @@
 source: crates/biome_grit_patterns/tests/spec_tests.rs
 expression: rawSnippet
 ---
+# Target code
+
+```ts
+console.log('Hello, world!');
+
+```
+
+
+# Query
+
+```grit
+`console.log($message)` => raw`if(' // I like broken code"`
+
+```
+
+
+# Matches
+
+1:1-1:29
+console.log('Hello, world!');
+
+
+# Snapshot result
+
 SnapshotResult {
     messages: [],
     matched_ranges: [

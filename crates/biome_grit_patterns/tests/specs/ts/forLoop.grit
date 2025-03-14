@@ -4,8 +4,6 @@ pattern for_in_loop() {
         `for(let µ_ in µ_) { µ_ }`,
         `for(const µ_ in µ_) { µ_ }`,
         `for(var µ_ in µ_) { µ_ }`,
-    } as $for_in_loop where {
-        log(message="matches for-in loop", variable=$for_in_loop)
     }
 }
 
@@ -19,13 +17,11 @@ pattern for_of_loop() {
         `for await(let µ_ of µ_) { µ_ }`,
         `for await(const µ_ of µ_) { µ_ }`,
         `for await(var µ_ of µ_) { µ_ }`,
-    } as $for_of_loop where {
-        log(message="matches for-of loop", variable=$for_of_loop)
     }
 }
 
 pattern for_loop() {
-    `for(µ_; µ_; µ_) { µ_ }` as $for_loop where log(message="matches for loop", variable=$for_loop)
+    `for(µ_; µ_; µ_) { µ_ }` 
 }
 
 or {

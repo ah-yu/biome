@@ -2,6 +2,34 @@
 source: crates/biome_grit_patterns/tests/spec_tests.rs
 expression: typeAlias
 ---
+# Target code
+
+```ts
+type Foo = string;
+type Bar = number;
+
+```
+
+
+# Query
+
+```grit
+`type $T = $U`
+
+```
+
+
+# Matches
+
+1:1-1:19
+type Foo = string;
+
+2:1-2:19
+type Bar = number;
+
+
+# Snapshot result
+
 SnapshotResult {
     messages: [],
     matched_ranges: [

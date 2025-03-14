@@ -2,6 +2,36 @@
 source: crates/biome_grit_patterns/tests/spec_tests.rs
 expression: strings
 ---
+# Target code
+
+```ts
+
+const a = 'foo';
+const b = "foo";
+const c = `foo`; // Template strings do not get matched with regular ones.
+
+```
+
+
+# Query
+
+```grit
+`"foo"`
+
+```
+
+
+# Matches
+
+2:11-2:16
+'foo';
+
+3:11-3:16
+"foo";
+
+
+# Snapshot result
+
 SnapshotResult {
     messages: [],
     matched_ranges: [

@@ -2,6 +2,47 @@
 source: crates/biome_grit_patterns/tests/spec_tests.rs
 expression: functionToArrow
 ---
+# Target code
+
+```ts
+function foo(apple) {
+}
+
+function bar(apple, pear) {
+    console.log("fruits");
+}
+
+function baz(pear) {
+}
+
+```
+
+
+# Query
+
+```grit
+`function $name ($args) { $body }` as $func where {
+  $func => `const $name = ($args) => { $body }`,
+  $args <: contains `apple` => `mango`
+}
+
+```
+
+
+# Matches
+
+1:1-2:2
+function foo(apple) {
+}
+
+4:1-6:2
+function bar(apple, pear) {
+    console.log("fruits");
+}
+
+
+# Snapshot result
+
 SnapshotResult {
     messages: [],
     matched_ranges: [

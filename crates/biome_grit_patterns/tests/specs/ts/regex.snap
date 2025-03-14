@@ -2,6 +2,34 @@
 source: crates/biome_grit_patterns/tests/spec_tests.rs
 expression: regex
 ---
+# Target code
+
+```ts
+console.log("Hello, Bert");
+console.log("Hello, Lucy");
+
+```
+
+
+# Query
+
+```grit
+`console.log($message)` where {
+    $name = "Lucy",
+    $message <: r`"([a-zA-Z]*), Lucy"`($greeting) => `$name, $greeting`
+}
+
+```
+
+
+# Matches
+
+2:1-2:27
+console.log("Hello, Lucy");
+
+
+# Snapshot result
+
 SnapshotResult {
     messages: [],
     matched_ranges: [

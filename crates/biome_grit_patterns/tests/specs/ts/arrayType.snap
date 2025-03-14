@@ -2,6 +2,34 @@
 source: crates/biome_grit_patterns/tests/spec_tests.rs
 expression: arrayType
 ---
+# Target code
+
+```ts
+
+function sort(array: number[]) {
+	let first = array[0];
+	// TODO: Implement sorting
+}
+
+```
+
+
+# Query
+
+```grit
+`number[]`
+
+```
+
+
+# Matches
+
+2:22-2:30
+number[]) {
+
+
+# Snapshot result
+
 SnapshotResult {
     messages: [],
     matched_ranges: [

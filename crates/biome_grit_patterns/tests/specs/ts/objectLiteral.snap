@@ -2,6 +2,39 @@
 source: crates/biome_grit_patterns/tests/spec_tests.rs
 expression: objectLiteral
 ---
+# Target code
+
+```ts
+
+function objectLiteral() {
+    const a = {
+        foo: 1,
+        bar: "bar",
+    }
+}
+
+```
+
+
+# Query
+
+```grit
+`{ foo: 1, bar: "bar" }`
+
+```
+
+
+# Matches
+
+3:15-6:6
+{
+        foo: 1,
+        bar: "bar",
+    }
+
+
+# Snapshot result
+
 SnapshotResult {
     messages: [],
     matched_ranges: [

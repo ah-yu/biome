@@ -2,6 +2,32 @@
 source: crates/biome_grit_patterns/tests/spec_tests.rs
 expression: log
 ---
+# Target code
+
+```ts
+console.log("grape");
+
+```
+
+
+# Query
+
+```grit
+`console.log($arg)` => . where {
+  log(message="This is a debug log", variable=$arg),
+}
+
+```
+
+
+# Matches
+
+1:1-1:21
+console.log("grape");
+
+
+# Snapshot result
+
 SnapshotResult {
     messages: [],
     matched_ranges: [
@@ -11,7 +37,8 @@ SnapshotResult {
     created_files: [],
 }
 
-## Logs
+
+# Logs
 
 Message: This is a debug log
 Syntax: (GritTargetNode { node: JsLanguage(Node(JS_CALL_ARGUMENT_LIST@12..19)) })
